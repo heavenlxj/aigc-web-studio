@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Layout, theme, Row, Col, Collapse, Upload, Button, Image, message, Space, Spin } from 'antd';
+import { Layout, theme, Row, Col, Collapse, Upload, Button, Image, message, Space, Spin, Alert } from 'antd';
 import AdvancedSettings from '../components/model/advanceSetting';
 import ModelSelect from '../components/model/modelSelect';
 import StyleSelect from '../components/model/styleSelect';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
+import '../styles/page/video.less';
 import {  
     PlusOutlined, 
     LoadingOutlined, 
@@ -45,44 +46,56 @@ const Image2VideoPage: React.FC = () => {
           };
   
 
-    const beforeUpload =
-        (file) => {
-        new Promise((resolve, reject) => {
-            
-            return false;
-    })
-    };
-
     const props: UploadProps = {
       name: 'file',
       multiple: false,
-      listType: "picture-card",
+      action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
       showUploadList: false,
-      beforeUpload: beforeUpload,   
       onChange: handleImageUpload,
       onDrop(e) {
         console.log('Dropped files', e.dataTransfer.files);
-      }
+      },
+      className: 'custom-upload-container', 
+    };
+
+    const handleTimeout = () => {
+      // Handle the timeout, e.g., show an error message
+      console.error('Video generation timeout exceeded');
+      return <Alert message="Video generation timeout exceeded" type="error" showIcon />
     };
 
     const pollVideoStatus = async (videoId: string) => {
         let status: string | null = null;
     
-        // Poll the video status every 2 seconds
+
+        const timeoutDuration = 10 * 60 * 1000; // 10 minutes in milliseconds
+        const intervalTime = 5000;
+        let elapsedTime = 0;
+        
+        // Poll the video status every 5 seconds
         const intervalId = setInterval(async () => {
+
+          elapsedTime += intervalTime;
+          if (elapsedTime >= timeoutDuration) {
+            // Stop the interval and handle the timeout
+            clearInterval(intervalId);
+            handleTimeout();
+            return;
+          }
+
           const videoData = await getVideoStatus(videoId);
           status = videoData.status;
           const imageUrl = videoData.image_url;
           const videoUrl = videoData.url;
     
-          if (status === 'Success' || status === 'Failed') {
+          if (status === 'Succeeded' || status === 'Failed') {
             // Update the video status and clear the interval
             setVideoStatus(status);
             setGeneratedVideoUrl(videoUrl);
             setGeneratedImageUrl(imageUrl);
             clearInterval(intervalId);
           }
-        }, 2000);
+        }, intervalTime);
       };
   
   
@@ -164,13 +177,14 @@ const Image2VideoPage: React.FC = () => {
             {/* Main Content */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {/* Left image display area */}
-              <ImgCrop rotationSlider>
+              
               <Upload {...props} > 
-                  {uploadedImage ? <img src={URL.createObjectURL(uploadedImage)} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                  {uploadedImage ? <img src={URL.createObjectURL(uploadedImage)} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : uploadButton}
               </Upload>
-              </ImgCrop>
   
-              {renderVideoContent()}
+              <div className="custom-upload-container">
+                {renderVideoContent()}
+              </div>
   
               {/* Generate button */}
               <Button type="primary" onClick={handleImageGeneration}>

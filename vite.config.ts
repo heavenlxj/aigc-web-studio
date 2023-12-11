@@ -29,7 +29,7 @@ export default ({ command, mode }: any) => {
           port: 3000,
           proxy: {
               '/api': {
-                  target: 'http://api-server-api-server-wcvomnbccr.cn-hangzhou.fcapp-test.run';
+                  target: 'http://api-server-api-server-wcvomnbccr.cn-hangzhou.fcapp-test.run',
                   changeOrigin: true,
               },
           },
