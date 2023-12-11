@@ -4,7 +4,7 @@ import AdvancedSettings from '../components/model/advanceSetting';
 import ModelSelect from '../components/model/modelSelect';
 import StyleSelect from '../components/model/styleSelect';
 import type { UploadProps } from 'antd/es/upload/interface';
-import '/src/styles/page/video.less';
+import '../styles/page/video.less';
 import {  
     PlusOutlined, 
     LoadingOutlined, 

@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "src/pages/*.tsx",
+        "use": "@vercel/next"
+      },
+      {
+        "src": "src/styles/**/*.less",
+        "use": "@vercel/static-build"
+      }
+    ],
+    "routes": [
+      {
+        "handle": "filesystem"
+      },
+      {
+        "src": "/.*",
+        "dest": "/index.html"
+      }
+    ]
+  }

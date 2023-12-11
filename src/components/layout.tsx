@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { Link, Route, Routes } from 'react-router-dom';
-import '/src/styles/layout/side.less';
+import '../styles/layout/side.less';
 import SwapFacePage from '../pages/swapFace';
 import Image2VideoPage from '../pages/image2Video';
 import Text2ImagePage from '../pages/text2Image';
