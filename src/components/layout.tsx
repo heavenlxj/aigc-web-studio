@@ -4,19 +4,19 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Row, Col, Collapse, theme } from 'antd';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
+import { Link, Route, Routes } from 'react-router-dom';
 import '../styles/layout/side.less';
 import SwapFacePage from '../pages/swapFace';
 import Image2VideoPage from '../pages/image2Video';
 import Text2ImagePage from '../pages/text2Image';
 
 
-const { Content, Sider } = Layout;
+const { Sider } = Layout;
 
 
 const LayoutComp: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed] = useState(false);
 
 
   return (

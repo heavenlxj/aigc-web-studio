@@ -3,7 +3,7 @@ import { Layout, theme, Row, Col, Collapse, Upload, Button, Image, message, Spac
 import AdvancedSettings from '../components/model/advanceSetting';
 import ModelSelect from '../components/model/modelSelect';
 import StyleSelect from '../components/model/styleSelect';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import type { UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import {  
     PlusOutlined,  
@@ -18,7 +18,7 @@ import {
 
 const SwapFacePage: React.FC = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [generatedImage, setGeneratedImage] = useState<string | null>('https://seopic.699pic.com/photo/40250/3648.jpg_wh1200.jpg');
+  const [generatedImage, setGeneratedImage] = useState<string>('https://seopic.699pic.com/photo/40250/3648.jpg_wh1200.jpg');
 
 
   const {

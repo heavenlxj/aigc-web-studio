@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Layout, theme, Row, Col, Collapse, Upload, Button, Image, message, Space, Spin, Alert } from 'antd';
+import { Layout, theme, Row, Col, Collapse, Upload, Button, Image, message, Spin, Alert } from 'antd';
 import AdvancedSettings from '../components/model/advanceSetting';
 import ModelSelect from '../components/model/modelSelect';
 import StyleSelect from '../components/model/styleSelect';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import ImgCrop from 'antd-img-crop';
+import type { UploadProps } from 'antd/es/upload/interface';
 import '../styles/page/video.less';
 import {  
     PlusOutlined, 
@@ -18,8 +17,8 @@ const Image2VideoPage: React.FC = () => {
     const [uploadedImage, setUploadedImage] = useState<File | null>(null);
     const [generatedVideoId, setGeneratedVideoId] = useState<string | null>(null);
     const [videoStatus, setVideoStatus] = useState<string | null>(null);
-    const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string | null>(null);
-    const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+    const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string>('');
+    const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
 
   
     const {
@@ -84,19 +83,21 @@ const Image2VideoPage: React.FC = () => {
           }
 
           const videoData = await getVideoStatus(videoId);
+          if (videoData !== null && typeof videoData === 'object') {
           status = videoData.status;
           const imageUrl = videoData.image_url;
           const videoUrl = videoData.url;
     
           if (status === 'Succeeded' || status === 'Failed') {
-            // Update the video status and clear the interval
-            setVideoStatus(status);
-            setGeneratedVideoUrl(videoUrl);
-            setGeneratedImageUrl(imageUrl);
-            clearInterval(intervalId);
+              // Update the video status and clear the interval
+              setVideoStatus(status);
+              setGeneratedVideoUrl(videoUrl);
+              setGeneratedImageUrl(imageUrl);
+              clearInterval(intervalId);
+            }
           }
-        }, intervalTime);
-      };
+          }, intervalTime);
+        };
   
   
     // Function to handle image generation
@@ -110,7 +111,7 @@ const Image2VideoPage: React.FC = () => {
       const formData = new FormData();
       formData.append('params', '{}');
       formData.append('user_id', 'make_me_rich');
-      formData.append('file', uploadedImage);
+      formData.append('file', uploadedImage as File);
   
       try {
         // Call the API to generate the video
