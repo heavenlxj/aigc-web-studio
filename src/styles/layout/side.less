@@ -1,0 +1,50 @@
+.aigc-layout {
+    width: 100%;
+    min-height: 100vh; /* Ensure the layout takes at least the full viewport height */
+    display: flex;
+    flex-direction: column;
+
+
+
+    .ant-layout-header {
+        padding: 0 24px;
+        .ant-select {
+            width: 200px;
+            margin-left: auto;
+            .ant-select-selector {
+                color: #fff;
+            }
+            .ant-select-arrow {
+                color: #fff;
+            }
+        }
+    }
+    .logo {
+        color: #fff;
+        margin-right: 100px;
+        font-size: 24px;
+    }
+    .ant-menu-item {
+        padding: 0 32px;
+    }
+    .ant-menu-item.ant-menu-item-selected {
+        &:hover {
+            background: #1677ff;
+            color: #fff;
+        }
+    }
+    .ant-menu-item.ant-menu-item-selected {
+        &:hover {
+            background: #1677ff;
+            color: #fff;
+        }
+    }
+    .content {
+        margin: 0 24px;
+        padding-bottom: 16px;
+        height: 100%;
+    }
+    &-container {
+        height: calc(100% - 64px);
+    }
+}
